@@ -40,7 +40,7 @@ _deisctl() {
 	#   upgrade-prep      prepare a running cluster for upgrade
 	#   upgrade-takeover  allow an upgrade to gracefully takeover a running cluster
 	#   rolling-restart   perform a rolling restart of a Deis component (currently only router is supported)
-	#
+
 	# Options:
 	#   -h --help                   show this help screen
 	#   --endpoint=<url>            etcd endpoint for fleet [default: http://127.0.0.1:4001]
@@ -83,6 +83,11 @@ _deisctl() {
       COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
       return 0
       ;;
+    journal )
+      components=$(deisctl list |awk '{print $1}')
+      COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
+      return 0
+      ;;
     status )
       components=$(deisctl list |awk '{print $1}')
       COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
@@ -95,3 +100,65 @@ _deisctl() {
 }
 
 complete -F _deisctl deisctl
+
+_deis() {
+  local cur prev opts base
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+  commands="help register login logout apps ps config domains builds limits tags releases certs keys perms git users create scale info open logs run destroy pull"
+  help_lookup="register login logout apps ps config domains builds limits tags releases certs keys perms git users create scale info open logs run destroy pull"
+
+  # Auth commands::
+  #
+  # register      register a new user with a controller
+  # login         login to a controller
+  # logout        logout from the current controller
+  #
+  # Subcommands, use 'deis help [subcommand]' to learn more::
+  #
+  # apps          manage applications used to provide services
+  # ps            manage processes inside an app container
+  # config        manage environment variables that define app config
+  # domains       manage and assign domain names to your applications
+  # builds        manage builds created using 'git push'
+  # limits        manage resource limits for your application
+  # tags          manage tags for application containers
+  # releases      manage releases of an application
+  # certs         manage SSL endpoints for an app
+  #
+  # keys          manage ssh keys used for 'git push' deployments
+  # perms         manage permissions for applications
+  # git           manage git for applications
+  # users         manage users
+  #
+  # Shortcut commands, use 'deis shortcuts' to see all::
+  #
+  # create        create a new application
+  # scale         scale processes by type (web=2, worker=1)
+  # info          view information about the current app
+  # open          open a URL to the app in a browser
+  # logs          view aggregated log info for the app
+  # run           run a command in an ephemeral app container
+  # destroy       destroy an application
+  # pull          imports an image and deploys as a new release
+
+
+  case "${prev}" in
+    help )
+      args=$(for word in $help_lookup;do echo "$word";done)
+      COMPREPLY=( $(compgen -W "${args}" -- "${cur}") )
+      return 0
+      ;;
+    info )
+      COMPREPLY=( $(compgen -W "--app=" -- "${cur}") )
+      return 0
+      ;;
+  esac
+
+  COMPREPLY=($(compgen -W "${commands}" -- "${cur}"))
+  return 0
+}
+
+complete -F _deis deis
