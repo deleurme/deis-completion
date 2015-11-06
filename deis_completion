@@ -1,0 +1,77 @@
+# vim: ft=sh 
+#        __     _     
+#   ____/ /__  (_)____
+#  / __  / _ \/ / ___/
+# / /_/ /  __/ (__  ) 
+# \__,_/\___/_/____/  
+#                     
+#
+_deisctl() {
+  local cur prev opts base
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	commands="install uninstall list start stop restart status scale journal
+				config refresh-units ssh dock help upgrade-prep upgrade-takeover
+				rolling-restart "
+
+	help_lookup="install uninstall list start stop restart status scale journal
+				config refresh-units ssh dock help upgrade-prep upgrade-takeover
+				rolling-restart "
+
+	# Usage: deisctl [options] <command> [<args>...]
+	#
+	# Commands, use "deisctl help <command>" to learn more:
+	#   install           install components, or the entire platform
+	#   uninstall         uninstall components
+	#   list              list installed components
+	#   start             start components
+	#   stop              stop components
+	#   restart           stop, then start components
+	#   status            view status of components
+	#   scale             grow or shrink the number of routers, registries or store gateways
+	#   journal           print the log output of a component
+	#   config            set platform or component values
+	#   refresh-units     refresh unit files from GitHub
+	#   ssh               open an interactive shell on a machine in the cluster
+	#   dock              open an interactive shell on a container in the cluster
+	#   help              show the help screen for a command
+	#   upgrade-prep      prepare a running cluster for upgrade
+	#   upgrade-takeover  allow an upgrade to gracefully takeover a running cluster
+	#   rolling-restart   perform a rolling restart of a Deis component (currently only router is supported)
+	#
+	# Options:
+	#   -h --help                   show this help screen
+	#   --endpoint=<url>            etcd endpoint for fleet [default: http://127.0.0.1:4001]
+	#   --etcd-cafile=<path>        etcd CA file authentication [default: ]
+	#   --etcd-certfile=<path>      etcd cert file authentication [default: ]
+	#   --etcd-key-prefix=<path>    keyspace for fleet data in etcd [default: /_coreos.com/fleet/]
+	#   --etcd-keyfile=<path>       etcd key file authentication [default: ]
+	#   --known-hosts-file=<path>   where to store remote fingerprints [default: ~/.ssh/known_hosts]
+	#   --request-timeout=<secs>    seconds before a request is considered failed [default: 10.0]
+	#   --ssh-timeout=<secs>        seconds before SSH connection is considered failed [default: 10.0]
+	#   --strict-host-key-checking  verify SSH host keys [default: true]
+	#   --tunnel=<host>             SSH tunnel for communication with fleet and etcd [default: ]
+	#   --version                   print the version of deisctl
+	#
+
+	case "${prev}" in
+		help )
+			args=$(for word in $help_lookup;do echo "$word";done)
+			COMPREPLY=( $(compgen -W "${args}" -- "${cur}") )
+			return 0
+			;;
+    config )
+      items="platform controller"
+      verbs="get set rm"
+      COMPREPLY=( $(compgen -W "${items}" -- "${cur}") )
+      return 0
+      ;;
+	esac
+
+  COMPREPLY=($(compgen -W "${commands}" -- "${cur}"))
+  return 0
+}
+
+complete -F _deisctl deisctl
