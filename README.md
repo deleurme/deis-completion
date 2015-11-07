@@ -10,5 +10,5 @@ Tested on Ubuntu, Debian Coreos and OSX.
 ## Usage 
 
 `deis <tab>` 
-or 
+--
 `deisctl <tab>` 
