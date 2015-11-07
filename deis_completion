@@ -68,28 +68,8 @@ _deisctl() {
       COMPREPLY=( $(compgen -W "${items}" -- "${cur}") )
       return 0
       ;;
-    start )
-      components=$(deisctl list |awk '{print $1}')
-      COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
-      return 0
-      ;;
-    stop )
-      components=$(deisctl list |awk '{print $1}')
-      COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
-      return 0
-      ;;
-    restart )
-      components=$(deisctl list |awk '{print $1}')
-      COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
-      return 0
-      ;;
-    journal )
-      components=$(deisctl list |awk '{print $1}')
-      COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
-      return 0
-      ;;
-    status )
-      components=$(deisctl list |awk '{print $1}')
+    start|stop|restart|journal|status )
+      components=$(deisctl list |awk '{print $1}'|sed 1d)
       COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
       return 0
       ;;
