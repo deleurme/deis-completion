@@ -1,5 +1,5 @@
 # deis-completion
-Basic bash completion for The deis utilities [deis](deis.io) paas.
+Basic bash completion for the `deis` and `deisctl` utilities.  [deis](deis.io) PAAS.
 
 ## Installation
 
