@@ -73,6 +73,11 @@ _deisctl() {
       COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
       return 0
       ;;
+    dock )
+      components=$(fleetctl list-units --no-legend --fields=unit)
+      COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
+      return 0
+      ;;
 	esac
 
   COMPREPLY=($(compgen -W "${commands}" -- "${cur}"))
