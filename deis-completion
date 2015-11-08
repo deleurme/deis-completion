@@ -129,11 +129,14 @@ _deis() {
   # destroy       destroy an application
   # pull          imports an image and deploys as a new release
 
-
   case "${prev}" in
     help )
       args=$(for word in $help_lookup;do echo "$word";done)
       COMPREPLY=( $(compgen -W "${args}" -- "${cur}") )
+      return 0
+      ;;
+    scale )
+      COMPREPLY=( $(compgen -W "web= worker= mail= redis=" -- "${cur}") )
       return 0
       ;;
     info )
