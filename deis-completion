@@ -62,6 +62,11 @@ _deisctl() {
 			COMPREPLY=( $(compgen -W "${args}" -- "${cur}") )
 			return 0
 			;;
+    scale )
+      items="router= registry= store-gateway="
+      COMPREPLY=( $(compgen -W "${items}" -- "${cur}") )
+      return 0
+      ;;
     config )
       items="platform controller"
       verbs="get set rm"
