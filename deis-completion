@@ -97,7 +97,7 @@ _deis() {
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
-  commands="help register login logout apps ps config domains builds limits tags releases certs keys perms git users create scale info open logs run destroy pull"
+  commands="help register login logout apps ps config domains builds limits tags releases certs keys perms git users create scale info open logs run destroy pull -a --app="
   help_lookup="register login logout apps ps config domains builds limits tags releases certs keys perms git users create scale info open logs run destroy pull"
 
   # Auth commands::
@@ -140,12 +140,17 @@ _deis() {
       COMPREPLY=( $(compgen -W "${args}" -- "${cur}") )
       return 0
       ;;
+    -a|--app=)
+      args=$(deis apps|sed 1d)
+      COMPREPLY=( $(compgen -W "${args}" -- "${cur}") )
+      return 0
+      ;;
     scale )
       COMPREPLY=( $(compgen -W "web= worker= mail= redis=" -- "${cur}") )
       return 0
       ;;
     info )
-      COMPREPLY=( $(compgen -W "--app=" -- "${cur}") )
+      COMPREPLY=( $(compgen -W "-a " -- "${cur}") )
       return 0
       ;;
   esac
