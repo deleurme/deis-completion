@@ -153,11 +153,6 @@ _deis() {
       COMPREPLY=( $(compgen -W "-a " -- "${cur}") )
       return 0
       ;;
-    -a )
-      args=$(deis apps|sed 1d) 
-      COMPREPLY=( $(compgen -W "${args}" -- "${cur}") )
-      return 0
-      ;;
   esac
 
   COMPREPLY=($(compgen -W "${commands}" -- "${cur}"))
