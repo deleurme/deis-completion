@@ -74,7 +74,7 @@ _deisctl() {
       return 0
       ;;
     start|stop|restart|journal|status )
-      components=$(deisctl list |awk '{print $1}'|sed 1d)
+      components=$(deisctl list |awk '{if (NR!=1) {print $1}}')
       COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
       return 0
       ;;
@@ -146,6 +146,11 @@ _deis() {
       ;;
     info )
       COMPREPLY=( $(compgen -W "--app=" -- "${cur}") )
+      return 0
+      ;;
+    -a )
+      args=$(deis apps|sed 1d) 
+      COMPREPLY=( $(compgen -W "${args}" -- "${cur}") )
       return 0
       ;;
   esac
