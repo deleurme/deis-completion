@@ -14,11 +14,11 @@ _deisctl() {
 
 	commands="install uninstall list start stop restart status scale journal
 				config refresh-units ssh dock help upgrade-prep upgrade-takeover
-				rolling-restart "
+				rolling-restart install "
 
 	help_lookup="install uninstall list start stop restart status scale journal
-				config refresh-units ssh dock help upgrade-prep upgrade-takeover
-				rolling-restart "
+				config refresh-units ssh dock upgrade-prep upgrade-takeover
+				rolling-restart install "
 
 	# Usage: deisctl [options] <command> [<args>...]
 	#
