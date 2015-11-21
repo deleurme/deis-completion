@@ -78,6 +78,11 @@ _deisctl() {
       COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
       return 0
       ;;
+    install )
+      components="--router-mesh-size= "
+      COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
+      return 0
+      ;;
     dock )
       components=$(fleetctl list-units --no-legend --fields=unit)
       COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
