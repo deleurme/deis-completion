@@ -14,11 +14,11 @@ _deisctl() {
 
 	commands="install uninstall list start stop restart status scale journal
 				config refresh-units ssh dock help upgrade-prep upgrade-takeover
-				rolling-restart "
+				rolling-restart install "
 
 	help_lookup="install uninstall list start stop restart status scale journal
-				config refresh-units ssh dock help upgrade-prep upgrade-takeover
-				rolling-restart "
+				config refresh-units ssh dock upgrade-prep upgrade-takeover
+				rolling-restart install "
 
 	# Usage: deisctl [options] <command> [<args>...]
 	#
@@ -75,6 +75,11 @@ _deisctl() {
       ;;
     start|stop|restart|journal|status )
       components=$(deisctl list |awk '{if (NR!=1) {print $1}}')
+      COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
+      return 0
+      ;;
+    install )
+      components="--router-mesh-size= "
       COMPREPLY=( $(compgen -W "${components}" -- "${cur}") )
       return 0
       ;;
