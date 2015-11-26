@@ -93,6 +93,7 @@ complete -F _deisctl deisctl
 
 _deis() {
   local cur prev opts base
+  _get_comp_words_by_ref -n : cur
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
@@ -156,6 +157,7 @@ _deis() {
   esac
 
   COMPREPLY=($(compgen -W "${commands}" -- "${cur}"))
+  __ltrim_colon_completions "$cur"
   return 0
 }
 
